@@ -1,0 +1,14 @@
+{
+  "name": "stinghel",
+  "description": "Marketplace pessoal com os plugins do Stinghel.",
+  "owner": {
+    "name": "marcusstinghel"
+  },
+  "plugins": [
+    {
+      "name": "stinghel-dev",
+      "source": "./plugins/stinghel-dev",
+      "description": "Pipeline de desenvolvimento com qualidade: spec, plano, TDD, code review e segurança."
+    }
+  ]
+}
