@@ -38,6 +38,7 @@ Tudo fica em `.stinghel/<slug>/` na raiz do projeto, onde `<slug>` é um nome cu
 {
   "feature": "<slug>",
   "request": "<pedido original>",
+  "branch": "<branch git usada pela feature>",
   "phase": "spec | plan | implement | final-review | security | done",
   "spec_approved": false,
   "plan_approved": false,
@@ -52,9 +53,11 @@ O hook `plan-guard` deste plugin lê o `state.json`: enquanto houver feature ati
 
 ## Início
 
-1. Se `$ARGUMENTS` for o slug de uma pasta existente em `.stinghel/`, ou se estiver vazio e existir uma única feature com `phase` diferente de `done`, **retome**: leia o `state.json`, diga ao usuário em uma linha em que etapa parou e continue dela.
+1. Se `$ARGUMENTS` for o slug de uma pasta existente em `.stinghel/`, ou se estiver vazio e existir uma única feature com `phase` diferente de `done`, **retome**: leia o `state.json`, diga ao usuário em uma linha em que etapa parou e continue dela. Se a branch git atual for diferente do campo `branch`, avise e pergunte se deve trocar para ela antes de continuar.
 2. Se estiver vazio e não houver feature para retomar, pergunte ao usuário o que construir.
-3. Caso contrário, é uma feature nova: escolha o slug, crie a pasta e o `state.json` com `phase: "spec"`.
+3. Caso contrário, é uma feature nova:
+   1. **Prepare o ambiente**: invoque a skill `stinghel-dev:setup` (ferramenta Skill) com o argumento `modo feature: <pedido do usuário>`. Ela atualiza o repositório e decide, com o usuário, se o trabalho continua na branch atual (quando cabe no escopo dela) ou numa branch nova. Só siga quando ela terminar.
+   2. Escolha o slug, crie a pasta e o `state.json` com `phase: "spec"` e o campo `"branch": "<branch em uso>"`.
 4. Na primeira vez em um projeto, se `.stinghel/` não estiver no `.gitignore`, pergunte ao usuário se os artefatos devem ser versionados ou ignorados. Não decida sozinho.
 
 ## Etapa 1: Spec
