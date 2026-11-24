@@ -11,6 +11,7 @@ Tem dois pontos de aprovação: depois da spec e depois do plano. Commit, push e
 | Tipo | Nome | Modelo | Papel |
 |---|---|---|---|
 | Skill | `/stinghel-dev:feature` | (sessão) | Orquestra o pipeline inteiro e retoma features em andamento |
+| Skill | `/stinghel-dev:setup` | (sessão) | Prepara o git: cria o repositório se for novo, limpa branches integradas, atualiza com o remoto e cria a branch certa a partir da base certa; o `feature` chama sozinho |
 | Skill | `/stinghel-dev:commit` | (sessão) | Commits atômicos em Conventional Commits (inglês), com barreira de segredos e aprovação do plano; termina no commit, sem push |
 | Agente | `spec-writer` | opus | Pedido → spec com critérios de aceite testáveis e perguntas em aberto |
 | Agente | `planner` | opus | Spec → plano com tarefas pequenas e verificáveis |
@@ -26,6 +27,12 @@ Tem dois pontos de aprovação: depois da spec e depois do plano. Commit, push e
 /stinghel-dev:feature login-com-google     # retoma pelo slug
 /stinghel-dev:feature                      # retoma a única feature em andamento
 ```
+
+```
+/stinghel-dev:setup corrigir timeout do nats   # prepara o repositório e a branch
+```
+
+Padrão de branches: `main` (produção) e `develop` (integração), com `feature/`, `fix/`, `refactor/`, `docs/` e `chore/` saindo de `develop`, `hotfix/` saindo de `main` e `release/x.y.z` saindo de `develop`. O setup nunca faz push nem apaga branch remota.
 
 ```
 /stinghel-dev:commit                       # analisa tudo, propõe os commits e pede aprovação
